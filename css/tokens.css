@@ -1,0 +1,176 @@
+/* ==========================================================================
+   STARFALL — Design Tokens
+   --------------------------------------------------------------------------
+   Single source of truth for the game's design system.
+   Never hardcode raw colors, sizes or timings elsewhere; always use var().
+   Mirrored in GAME_DESIGN_SYSTEM/core/foundations.md
+   ========================================================================== */
+
+:root {
+  /* ====== Color: Surfaces ====== */
+  --color-bg:             #070b1d;
+  --color-bg-elev:        #0d1430;
+  --color-surface:        #141d42;
+  --color-surface-2:      #1c274f;
+  --color-surface-3:      #25315f;
+  --color-border:         rgba(255, 255, 255, 0.10);
+  --color-border-strong:  rgba(255, 255, 255, 0.20);
+
+  /* ====== Color: Primary (cyan — interact, highlight) ====== */
+  --color-primary:        #22d3ee;
+  --color-primary-strong: #7ee9ff;
+  --color-primary-soft:   rgba(34, 211, 238, 0.16);
+  --color-on-primary:     #042733;
+
+  /* ====== Color: Secondary (violet — info, alternate) ====== */
+  --color-secondary:        #a78bfa;
+  --color-secondary-strong: #c9b8ff;
+  --color-secondary-soft:   rgba(167, 139, 250, 0.16);
+  --color-on-secondary:     #1e1140;
+
+  /* ====== Color: Gold (reward, score) ====== */
+  --color-gold:        #ffc24b;
+  --color-gold-strong: #ffd98a;
+  --color-gold-soft:   rgba(255, 194, 75, 0.16);
+  --color-on-gold:     #3a2602;
+
+  /* ====== Color: Danger (hazard, error, life loss) ====== */
+  --color-danger:        #ff6b81;
+  --color-danger-strong: #ff9db0;
+  --color-danger-soft:   rgba(255, 107, 129, 0.16);
+  --color-on-danger:     #3a0510;
+
+  /* ====== Color: Success (combo, milestone) ====== */
+  --color-success:        #3ddc97;
+  --color-success-strong: #7deec0;
+  --color-success-soft:   rgba(61, 220, 151, 0.16);
+
+  /* ====== Color: Vibrant accents (extras for the "Vibrant" refresh) ====== */
+  --color-magenta:        #ff6bcb;
+  --color-magenta-strong: #ff9be0;
+  --color-magenta-soft:   rgba(255, 107, 203, 0.16);
+  --color-orange:         #ff9d3c;
+  --color-orange-strong:  #ffc07a;
+  --color-orange-soft:    rgba(255, 157, 60, 0.16);
+  --color-blue:           #5c8dff;
+  --color-blue-strong:    #8fb0ff;
+  --color-blue-soft:      rgba(92, 141, 255, 0.16);
+
+  /* ====== Color: Text ====== */
+  --color-text:       #eef3ff;
+  --color-text-dim:   #9fb0d0;
+  --color-text-faint: #6b7aa3;
+
+  /* ====== Gradients ====== */
+  --grad-primary:        linear-gradient(180deg, #3ce0ff 0%, #0fb5e8 100%);
+  --grad-primary-hover:  linear-gradient(180deg, #57e8ff 0%, #1ec6f2 100%);
+  --grad-secondary:      linear-gradient(180deg, #bd9cff 0%, #8b6cf0 100%);
+  --grad-gold:           linear-gradient(180deg, #ffd98a 0%, #ffb02e 100%);
+  --grad-danger:         linear-gradient(180deg, #ff93a4 0%, #ff5f78 100%);
+  --grad-surface:        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  --grad-bg:             radial-gradient(120% 90% at 50% 0%, #151f4e 0%, #0b1130 45%, #070b1d 100%);
+  --grad-text-title:     linear-gradient(180deg, #ffffff 0%, #a5d9ff 55%, #5c8dff 100%);
+  /* Vibrant refresh extras */
+  --grad-rainbow:        linear-gradient(100deg, #ff6bcb 0%, #a78bfa 18%, #22d3ee 36%, #3ddc97 54%, #ffc24b 72%, #ff6b81 88%, #ff6bcb 100%);
+  --grad-rainbow-soft:   linear-gradient(100deg, #ff6bcb 0%, #a78bfa 20%, #22d3ee 40%, #3ddc97 60%, #ffc24b 80%, #ff6b81 100%);
+  --grad-cta:            linear-gradient(135deg, #22d3ee 0%, #8b6cf0 45%, #ff6bcb 100%);
+  --grad-cta-hover:      linear-gradient(135deg, #57e8ff 0%, #a78bfa 45%, #ff9be0 100%);
+  --grad-menu-mist:      radial-gradient(60% 45% at 20% 85%, rgba(34,211,238,0.20), transparent 70%),
+                         radial-gradient(55% 40% at 82% 70%, rgba(167,139,250,0.20), transparent 70%),
+                         radial-gradient(45% 35% at 55% 15%, rgba(255,107,203,0.16), transparent 70%);
+
+  /* ====== Typography ====== */
+  --font-display: 'Fredoka', ui-rounded, 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body:    var(--font-display);
+
+  --fs-xs:   0.75rem;   /* 12 */
+  --fs-sm:   0.875rem;  /* 14 */
+  --fs-base: 1rem;      /* 16 */
+  --fs-md:   1.125rem;  /* 18 */
+  --fs-lg:   1.375rem;  /* 22 */
+  --fs-xl:   1.75rem;   /* 28 */
+  --fs-2xl:  2.25rem;   /* 36 */
+  --fs-3xl:  3rem;      /* 48 */
+  --fs-4xl:  clamp(3.25rem, 9vw, 4.5rem);  /* 52-72 */
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+
+  --lh-tight:  1.15;
+  --lh-normal: 1.45;
+  --tracking-wide: 0.04em;
+  --tracking-title: 0.1em;
+
+  /* ====== Spacing scale ====== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  /* ====== Border radius ====== */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* ====== Shadows ====== */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-2: 0 4px 14px rgba(0, 0, 0, 0.35);
+  --shadow-3: 0 12px 40px rgba(0, 0, 0, 0.50);
+  --shadow-primary: 0 4px 20px rgba(34, 211, 238, 0.40), inset 0 1px 0 rgba(255,255,255,0.35);
+  --shadow-primary-strong: 0 0 24px rgba(34, 211, 238, 0.65);
+  --shadow-gold:    0 4px 20px rgba(255, 194, 75, 0.45);
+  --shadow-danger:  0 4px 20px rgba(255, 107, 129, 0.45);
+  --glow-text: 0 0 18px rgba(126, 233, 255, 0.55);
+
+  /* ====== Motion ====== */
+  --dur-instant:    80ms;
+  --dur-fast:       120ms;
+  --dur-base:       200ms;
+  --dur-slow:       320ms;
+  --dur-celebration: 650ms;
+
+  --ease-std:    cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in:     cubic-bezier(0.55, 0, 0.55, 0.2);
+
+  /* ====== Layout ====== */
+  --safe-x:   max(var(--space-4), env(safe-area-inset-left, 0px));
+  --safe-x-r: max(var(--space-4), env(safe-area-inset-right, 0px));
+  --safe-y:   max(var(--space-4), env(safe-area-inset-top, 0px));
+  --safe-y-b: max(var(--space-4), env(safe-area-inset-bottom, 0px));
+  --hud-height: 64px;
+  --container-max: 520px;
+
+  /* ====== Z-index scale ====== */
+  --z-base: 1;
+  --z-hud:  100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+  --z-transition: 500;
+
+  /* ====== Focus ====== */
+  --focus-ring: 0 0 0 3px var(--color-primary-soft), 0 0 0 1px var(--color-primary);
+}
+
+/* Respect OS reduced-motion preference early: drop all long/trailing motion. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0ms;
+    --dur-fast:    1ms;
+    --dur-base:    1ms;
+    --dur-slow:    1ms;
+    --dur-celebration: 1ms;
+  }
+}

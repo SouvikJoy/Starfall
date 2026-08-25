@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="STARFALL — a casual arcade skill game. Catch the stars, dodge the comets, build your combo.">
+  <meta name="theme-color" content="#070b1d">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 12l10.4 21.1 23.3 3.4-16.9 16.5 4 23.3L60 67.4l-20.8 10.9 4-23.3L26.3 36.5l23.3-3.4z' fill='%23ffc24b'/%3E%3C/svg%3E">
+  <title>STARFALL · Catch the Stars</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/screens.css">
+  <link rel="stylesheet" href="css/hud.css">
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body data-screen="menu" data-motion="full">
+
+  <!-- ===== SVG Icon Sprite (reusable UI icons) ===== -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <defs>
+      <symbol id="i-star" viewBox="0 0 24 24">
+        <path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.5l-5.8 3.05 1.1-6.45-4.7-4.6 6.5-.95z"/>
+      </symbol>
+      <symbol id="i-comet" viewBox="0 0 24 24">
+        <path d="M16.6 2.4c1.9 2.4 3.4 4.3 3.4 6.1a3.4 3.4 0 0 1-6.8 0c0-.7.2-1.4.6-2a6.2 6.2 0 0 0-2.9 5.1A5.8 5.8 0 0 0 16.6 17.5 5.8 5.8 0 0 0 22.4 11.7c0-3.5-2.9-7-5.8-9.3z"/>
+        <circle cx="8" cy="16" r="4.6"/>
+      </symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24">
+        <path d="M12 20.6S4.6 15.8 2.1 11C.8 8.2 3.1 4.8 6.5 4.8c2 0 3.6 1 4.6 2.6a5.1 5.1 0 0 1 4.5-2.6c3.4 0 5.7 3.4 4.4 6.2-2.5 4.8-10 9.6-10 9.6z"/>
+      </symbol>
+      <symbol id="i-heart-empty" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 20.6S4.6 15.8 2.1 11C.8 8.2 3.1 4.8 6.5 4.8c2 0 3.6 1 4.6 2.6a5.1 5.1 0 0 1 4.5-2.6c3.4 0 5.7 3.4 4.4 6.2-2.5 4.8-10 9.6-10 9.6z"/>
+      </symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24">
+        <path d="M7 4.5h3.4v15H7zM13.6 4.5H17v15h-3.4z"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24">
+        <path d="M7.5 5.1v13.8a.7.7 0 0 0 1.05.6l11.2-6.9a.7.7 0 0 0 0-1.2L8.55 4.5a.7.7 0 0 0-1.05.6z"/>
+      </symbol>
+      <symbol id="i-restart" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M18.6 3.6V8h-4.4"/>
+      </symbol>
+      <symbol id="i-home" viewBox="0 0 24 24">
+        <path d="M4 11.2 12 3.8l8 7.4V20a1 1 0 0 1-1 1h-4.4v-6.2H9.4V21H5a1 1 0 0 1-1-1z"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M4 7h10"/><path d="M20 7h0"/><circle cx="16.5" cy="7" r="2.4"/>
+          <path d="M4 17h4"/><path d="M14 17h6"/><circle cx="11" cy="17" r="2.4"/>
+        </g>
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24">
+        <path d="M8 3.5h8V8a4 4 0 0 1-8 0z"/>
+        <path d="M8 5.5H5a2 2 0 0 0 0 4h3M16 5.5h3a2 2 0 0 1 0 4h-3"/>
+        <path d="M12 12v3.5M9 20h6M10.5 16.5h3"/>
+      </symbol>
+      <symbol id="i-sound-on" viewBox="0 0 24 24">
+        <path d="M4 9.5v5h3.4L12 18.4V5.6L7.4 9.5z"/>
+        <path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M15.5 9.2a4.2 4.2 0 0 1 0 5.6M18 6.6a7.6 7.6 0 0 1 0 10.8"/>
+      </symbol>
+      <symbol id="i-sound-off" viewBox="0 0 24 24">
+        <path d="M4 9.5v5h3.4L12 18.4V5.6L7.4 9.5z"/>
+        <path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M15.6 9.2l4.9 5.6M20.5 9.2l-4.9 5.6"/>
+      </symbol>
+      <symbol id="i-music-on" viewBox="0 0 24 24">
+        <path d="M9 18.5V5.2L19 3.2v13"/>
+        <circle cx="6.6" cy="18.5" r="2.4"/>
+        <circle cx="16.6" cy="16.2" r="2.4"/>
+      </symbol>
+      <symbol id="i-music-off" viewBox="0 0 24 24">
+        <path d="M9 18.5V7.5L19 5.5v11"/>
+        <circle cx="6.6" cy="18.5" r="2.4"/>
+        <circle cx="16.6" cy="16.2" r="2.4"/>
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M3 4l18 17"/>
+      </symbol>
+      <symbol id="i-keyboard" viewBox="0 0 24 24">
+        <rect x="2.6" y="6.2" width="18.8" height="11.6" rx="2.6"/>
+        <g fill="#fff" opacity="0.85">
+          <circle cx="6" cy="10" r="0.8"/><circle cx="9.2" cy="10" r="0.8"/><circle cx="12.4" cy="10" r="0.8"/>
+          <circle cx="15.6" cy="10" r="0.8"/><circle cx="18" cy="10" r="0.8"/>
+          <rect x="5.4" y="13.2" width="6" height="1.8" rx="0.9"/><rect x="13.4" y="13.2" width="5.2" height="1.8" rx="0.9"/>
+        </g>
+      </symbol>
+      <symbol id="i-touch" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="2.2"/>
+        <path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M7.6 8.7a6.1 6.1 0 0 1 8.8 0M5.1 11.4a9.2 9.2 0 0 1 13.8 0"/>
+      </symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24">
+        <path d="M12 2.8c.55 4.3 2.6 6.35 6.9 6.9-4.3.55-6.35 2.6-6.9 6.9-.55-4.3-2.6-6.35-6.9-6.9 4.3-.55 6.35-2.6 6.9-6.9z"/>
+      </symbol>
+      <symbol id="i-chevron-left" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M14.5 5.5 8 12l6.5 6.5"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="4.4"/><circle cx="12" cy="12" r="1.4"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div id="app">
+    <!-- Game world (canvas) + DOM effect overlays -->
+    <div id="world" aria-hidden="true">
+      <canvas id="game-canvas"></canvas>
+      <div id="effect-layer">
+        <div id="flash" class="fx-flash"></div>
+        <div id="vignette" class="fx-vignette"></div>
+        <div id="ground-glow" class="fx-ground-glow"></div>
+      </div>
+    </div>
+
+    <!-- ===== In-game HUD ===== -->
+    <header id="hud" class="hud" aria-label="Game HUD" hidden>
+      <div class="hud__group hud__group--score">
+        <span class="hud__label" id="hud-level-label">Level 1</span>
+        <span class="hud__value hud__value--score" id="hud-score">0</span>
+        <span class="hud__sub" id="hud-best">Best 0</span>
+      </div>
+
+      <div class="hud__group hud__group--combo" role="status" aria-live="polite">
+        <span class="hud__combo-mult" id="hud-mult">x1</span>
+        <div class="hud__combo-track" aria-hidden="true">
+          <div class="hud__combo-fill" id="hud-combo-fill"></div>
+        </div>
+        <span class="hud__combo-count" id="hud-combo-count">combo 0</span>
+      </div>
+
+      <div class="hud__group hud__group--right">
+        <div class="hud__lives" id="hud-lives" role="img" aria-label="Lives: 3"></div>
+        <button type="button" id="pause-btn" class="icon-btn" data-action="pause" aria-label="Pause game">
+          <svg class="icon"><use href="#i-pause"></use></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== Screens ===== -->
+    <main id="screens">
+
+      <!-- Menu -->
+      <section id="screen-menu" class="screen" role="dialog" aria-label="Main menu" aria-modal="true">
+        <div class="screen__inner">
+          <div class="logo">
+            <svg class="logo__mark" viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="g-logo" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#ffd98a"/><stop offset="0.55" stop-color="#ffb02e"/>
+                  <stop offset="1" stop-color="#ff8a3c"/>
+                </linearGradient>
+                <linearGradient id="g-logo-ring" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#3ce0ff"/><stop offset="1" stop-color="#8b6cf0"/>
+                </linearGradient>
+              </defs>
+              <circle class="logo__orbit" cx="60" cy="60" r="52" fill="none" stroke="url(#g-logo-ring)" stroke-width="2.4" stroke-dasharray="3 10" stroke-linecap="round"/>
+              <path d="M60 20l9.3 18.9 20.9 3-15.1 14.7 3.6 20.8L60 68.6 41.3 77.4l3.6-20.8-15.1-14.7 20.9-3z" fill="url(#g-logo)" />
+              <circle cx="60" cy="57" r="12" fill="rgba(255,255,255,0.55)"/>
+              <circle class="logo__spark" cx="92" cy="28" r="3.4" fill="#7ee9ff"/>
+              <circle class="logo__spark logo__spark--2" cx="24" cy="84" r="2.6" fill="#c9b8ff"/>
+            </svg>
+            <h1 class="logo__title">STARFALL</h1>
+            <p class="logo__tagline">Catch the stars. Dodge the comets.</p>
+          </div>
+
+          <div class="menu__howto" role="list">
+            <div class="howto-chip" role="listitem">
+              <span class="howto-chip__icon howto-chip__icon--gold"><svg class="icon"><use href="#i-star"></use></svg></span>
+              <span class="howto-chip__text">Catch <b>stars</b></span>
+            </div>
+            <div class="howto-chip" role="listitem">
+              <span class="howto-chip__icon howto-chip__icon--danger"><svg class="icon"><use href="#i-comet"></use></svg></span>
+              <span class="howto-chip__text">Avoid <b>comets</b></span>
+            </div>
+            <div class="howto-chip" role="listitem">
+              <span class="howto-chip__icon howto-chip__icon--secondary"><svg class="icon"><use href="#i-sparkle"></use></svg></span>
+              <span class="howto-chip__text">Chain <b>combos</b></span>
+            </div>
+          </div>
+
+          <div class="menu__actions">
+            <button type="button" class="btn btn--primary btn--lg" data-action="play">
+              <svg class="icon"><use href="#i-play"></use></svg> Play
+            </button>
+            <button type="button" class="btn" data-action="howto">How to Play</button>
+            <button type="button" class="btn" data-action="settings">
+              <svg class="icon"><use href="#i-settings"></use></svg> Settings
+            </button>
+          </div>
+
+          <div class="menu__best">
+            <svg class="icon icon--gold"><use href="#i-trophy"></use></svg>
+            <span>Best score <b id="menu-best">0</b></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- How to Play -->
+      <section id="screen-howto" class="screen" role="dialog" aria-label="How to play" aria-modal="true" hidden>
+        <div class="screen__inner">
+          <div class="panel panel--card">
+            <h2 class="screen__title">How to Play</h2>
+            <ul class="howto-list">
+              <li class="howto-item">
+                <span class="howto-item__icon howto-item__icon--gold"><svg class="icon"><use href="#i-star"></use></svg></span>
+                <p class="howto-item__body"><b>Catch falling stars</b> to earn points. Gold stars are worth extra.</p>
+              </li>
+              <li class="howto-item">
+                <span class="howto-item__icon howto-item__icon--danger"><svg class="icon"><use href="#i-comet"></use></svg></span>
+                <p class="howto-item__body"><b>Avoid comets</b> — hitting one costs a life.</p>
+              </li>
+              <li class="howto-item">
+                <span class="howto-item__icon howto-item__icon--secondary"><svg class="icon"><use href="#i-sparkle"></use></svg></span>
+                <p class="howto-item__body"><b>Chain catches</b> to grow your combo multiplier and boost your score.</p>
+              </li>
+            </ul>
+
+            <div class="howto-controls">
+              <div class="control-tile">
+                <span class="control-tile__icon control-tile__icon--primary"><svg class="icon"><use href="#i-keyboard"></use></svg></span>
+                <span class="control-tile__label">Desktop</span>
+                <span class="control-tile__keys"><kbd>←</kbd><kbd>→</kbd> or <kbd>A</kbd><kbd>D</kbd></span>
+              </div>
+              <div class="control-tile">
+                <span class="control-tile__icon control-tile__icon--primary"><svg class="icon"><use href="#i-touch"></use></svg></span>
+                <span class="control-tile__label">Mobile</span>
+                <span class="control-tile__keys">Drag to move</span>
+              </div>
+              <div class="control-tile">
+                <span class="control-tile__icon control-tile__icon--primary"><svg class="icon"><use href="#i-pause"></use></svg></span>
+                <span class="control-tile__label">Pause</span>
+                <span class="control-tile__keys"><kbd>Space</kbd> / <kbd>P</kbd></span>
+              </div>
+            </div>
+
+            <div class="screen__actions">
+              <button type="button" class="btn btn--primary" data-action="play">Let's go!</button>
+              <button type="button" class="btn btn--ghost" data-action="back-menu"><svg class="icon"><use href="#i-chevron-left"></use></svg> Back</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section id="screen-settings" class="screen" role="dialog" aria-label="Settings" aria-modal="true" hidden>
+        <div class="screen__inner">
+          <div class="panel panel--card">
+            <h2 class="screen__title">Settings</h2>
+
+            <div class="setting-row">
+              <div class="setting-row__label">
+                <span class="setting-row__icon"><svg class="icon"><use href="#i-sound-on"></use></svg></span>
+                <div><b>Sound effects</b><small>Feedback sounds for gameplay</small></div>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="set-sound" checked>
+                <span class="toggle__track" aria-hidden="true"><span class="toggle__thumb"></span></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-row__label">
+                <span class="setting-row__icon"><svg class="icon"><use href="#i-music-on"></use></svg></span>
+                <div><b>Music</b><small>Ambient background loop</small></div>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="set-music" checked>
+                <span class="toggle__track" aria-hidden="true"><span class="toggle__thumb"></span></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-row__label">
+                <span class="setting-row__icon"><svg class="icon"><use href="#i-sparkle"></use></svg></span>
+                <div><b>Reduced motion</b><small>Limit shake, particles &amp; effects</small></div>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="set-motion">
+                <span class="toggle__track" aria-hidden="true"><span class="toggle__thumb"></span></span>
+              </label>
+            </div>
+
+            <div class="screen__actions">
+              <button type="button" class="btn btn--primary" data-action="back">Done</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pause -->
+      <section id="screen-pause" class="screen screen--overlay" role="dialog" aria-label="Paused" aria-modal="true" hidden>
+        <div class="screen__inner screen__inner--compact">
+          <div class="panel panel--card">
+            <h2 class="screen__title">Paused</h2>
+            <div class="pause-stats">
+              <div class="stat"><span class="stat__value" id="pause-score">0</span><span class="stat__label">Score</span></div>
+              <div class="stat"><span class="stat__value" id="pause-level">1</span><span class="stat__label">Level</span></div>
+            </div>
+            <div class="screen__actions screen__actions--stack">
+              <button type="button" class="btn btn--primary" data-action="resume">
+                <svg class="icon"><use href="#i-play"></use></svg> Resume
+              </button>
+              <button type="button" class="btn" data-action="restart">
+                <svg class="icon"><use href="#i-restart"></use></svg> Restart
+              </button>
+              <button type="button" class="btn btn--ghost" data-action="quit">
+                <svg class="icon"><use href="#i-home"></use></svg> Quit to menu
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Game Over -->
+      <section id="screen-over" class="screen screen--overlay" role="dialog" aria-label="Game over" aria-modal="true" hidden>
+        <div class="screen__inner">
+          <div class="panel panel--card panel--celebrate">
+            <div class="result-banner">
+              <span class="result-banner__star"><svg class="icon"><use href="#i-star"></use></svg></span>
+              <h2 class="result-banner__title" id="over-title">Game Over</h2>
+            </div>
+
+            <div class="result-badge" id="over-newrecord" hidden>
+              <svg class="icon icon--gold"><use href="#i-trophy"></use></svg> New best score!
+            </div>
+
+            <div class="result-score">
+              <span class="result-score__label">Score</span>
+              <span class="result-score__value" id="over-score">0</span>
+              <span class="result-score__best" id="over-best">Best 0</span>
+            </div>
+
+            <div class="result-stats">
+              <div class="stat"><span class="stat__value" id="over-combo">0</span><span class="stat__label">Best combo</span></div>
+              <div class="stat"><span class="stat__value" id="over-stars">0</span><span class="stat__label">Stars caught</span></div>
+              <div class="stat"><span class="stat__value" id="over-level">1</span><span class="stat__label">Reached level</span></div>
+            </div>
+
+            <div class="screen__actions screen__actions--stack">
+              <button type="button" class="btn btn--primary btn--lg" data-action="restart">
+                <svg class="icon"><use href="#i-restart"></use></svg> Play again
+              </button>
+              <button type="button" class="btn btn--ghost" data-action="quit">
+                <svg class="icon"><use href="#i-home"></use></svg> Menu
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Toast notifications -->
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- Level-up banner -->
+    <div id="level-banner" class="level-banner" aria-hidden="true">
+      <span class="level-banner__tag" id="level-banner-tag">LEVEL 1</span>
+      <span class="level-banner__name" id="level-banner-name">Aurora</span>
+    </div>
+  </div>
+
+  <!-- Game modules: settings → audio → particles → game → input → ui → main -->
+  <script src="js/settings.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

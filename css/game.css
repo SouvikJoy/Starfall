@@ -1,0 +1,182 @@
+/* ==========================================================================
+   STARFALL — Game world, effect overlays, responsive behaviour
+   ========================================================================== */
+
+#world {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+}
+
+#game-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---------- Effect overlays (flash, vignette, ground glow) ---------- */
+#effect-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2; /* above canvas, below HUD */
+}
+
+.fx-flash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
+.fx-flash--gold {
+  background: radial-gradient(60% 50% at 50% 60%, rgba(255, 194, 75, 0.28), transparent 72%);
+}
+
+.fx-flash--danger {
+  background: radial-gradient(60% 50% at 50% 60%, rgba(255, 107, 129, 0.32), transparent 72%);
+}
+
+.fx-flash--active {
+  opacity: 1;
+}
+
+.fx-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 100% at 50% 42%, transparent 58%, rgba(2, 4, 12, 0.55) 100%);
+  transition: box-shadow var(--dur-slow) var(--ease-out);
+}
+
+.fx-vignette--hurt {
+  box-shadow: inset 0 0 130px rgba(255, 107, 129, 0.35);
+}
+
+.fx-ground-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(780px, 84vw);
+  height: 170px;
+  background: radial-gradient(50% 60% at 50% 100%, rgba(34, 211, 238, 0.16), transparent 72%);
+}
+
+/* ---------- Level-up banner ---------- */
+.level-banner {
+  position: fixed;
+  left: 50%;
+  top: 27%;
+  transform: translate(-50%, -50%) scale(0.82);
+  z-index: var(--z-transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-8);
+  border-radius: var(--radius-xl);
+  background: rgba(10, 14, 34, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: var(--shadow-3);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-spring);
+}
+
+.level-banner--show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.level-banner__tag {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-title);
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.level-banner__name {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  background-image: var(--grad-rainbow);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rainbow-move 5s linear infinite;
+  filter: drop-shadow(0 2px 14px rgba(255, 107, 203, 0.5));
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .hud {
+    gap: var(--space-2);
+  }
+
+  .hud__value--score {
+    font-size: var(--fs-xl);
+  }
+
+  .hud__combo-track {
+    width: 72px;
+  }
+
+  .howto-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .panel--card {
+    padding: var(--space-5);
+    gap: var(--space-4);
+  }
+
+  .result-stats {
+    gap: var(--space-2);
+  }
+}
+
+/* Short landscape screens (small phones in landscape): keep everything on screen. */
+@media (max-height: 540px) and (orientation: landscape) {
+  .screen {
+    align-items: flex-start;
+  }
+
+  .screen__inner {
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+  }
+
+  .logo__mark {
+    width: 72px;
+  }
+
+  .logo__title {
+    font-size: clamp(2.4rem, 6vh, 3rem);
+  }
+
+  .menu__actions {
+    max-width: 300px;
+  }
+
+  .panel--card {
+    padding: var(--space-4);
+    gap: var(--space-3);
+  }
+}
+
+/* Reduce the vignette on very large desktop monitors. */
+@media (min-width: 1600px) {
+  .fx-vignette {
+    background: radial-gradient(120% 100% at 50% 42%, transparent 62%, rgba(2, 4, 12, 0.5) 100%);
+  }
+}

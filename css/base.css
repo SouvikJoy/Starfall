@@ -1,0 +1,116 @@
+/* ==========================================================================
+   STARFALL — Base styles
+   Reset, layout shell, typography defaults, icons, utilities.
+   All values come from tokens.css.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  background-image: var(--grad-bg);
+  background-attachment: fixed;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+img,
+svg {
+  display: block;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+input {
+  font: inherit;
+}
+
+/* ---------- Icons (reusable via SVG sprite <use>) ---------- */
+.icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex: none;
+  fill: currentColor;
+}
+
+.icon--gold      { color: var(--color-gold); }
+.icon--danger    { color: var(--color-danger); }
+.icon--secondary { color: var(--color-secondary); }
+.icon--primary   { color: var(--color-primary); }
+.icon--success   { color: var(--color-success); }
+
+/* ---------- Selection ---------- */
+::selection {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+/* ---------- Focus visibility (keyboard + gamepad) ---------- */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Motion settings ----------
+   data-motion="reduced" is set on <html> when the player (or the OS)
+   prefers reduced motion. It neutralises CSS animation/transition. */
+html.rm *,
+html.rm *::before,
+html.rm *::after {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
