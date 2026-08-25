@@ -3,3 +3,4 @@
 
 # Lighthouse audit artifacts
 reports/
+.vercel
